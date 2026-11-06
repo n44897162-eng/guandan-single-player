@@ -108,6 +108,7 @@ tools/gen_voice.py              重新生成语音包（edge-tts）
 tests/                          规则 / 引擎 / AI 配合 测试
 tests/ui/                       浏览器端界面回归与尺寸审计（puppeteer）
 docs/feature-map.md             功能与界面逐条对照
+ci/build-apk.yml                GitHub Actions 模板（按需复制到 .github/workflows/）
 ```
 
 ## 测试
@@ -122,7 +123,7 @@ CHROME="/path/to/Chrome" node tests/ui/check.js
 CHROME="/path/to/Chrome" node tests/ui/audit.js
 ```
 
-已验证：61 项单元测试全通过；完整对局（含进贡、接风、观战、结算、同花顺理牌）在真机/模拟器上无报错。GitHub Actions 会在 push 时自动跑测试并打包 APK。
+已验证：61 项单元测试全通过；完整对局（含进贡、接风、观战、结算、同花顺理牌）在真机/模拟器上无报错。仓库附带 `ci/build-apk.yml`，想启用自动构建时把它复制到 `.github/workflows/build-apk.yml` 即可（GitHub Actions 会跑测试并打包 APK）。
 
 ## 语音包
 

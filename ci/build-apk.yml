@@ -1,0 +1,46 @@
+name: build-apk
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install build-tools
+        run: |
+          sdkmanager "build-tools;34.0.0" "platforms;android-34" > /dev/null
+          echo "ANDROID_SDK=$ANDROID_HOME" >> $GITHUB_ENV
+          echo "BUILD_TOOLS=$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_ENV
+
+      - name: Run unit tests
+        run: |
+          node tests/engine.test.js
+          node tests/rules.test.js
+          node tests/coop.test.js
+
+      - name: Build APK
+        run: |
+          chmod +x android/build_apk.sh
+          bash android/build_apk.sh
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: GuandanSingle-apk
+          path: build/apk/GuandanSingle.apk
+          if-no-files-found: error
