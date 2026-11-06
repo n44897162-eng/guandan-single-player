@@ -1,0 +1,18 @@
+# 构建产物
+build/
+android/assets/
+android/build/
+*.apk
+*.jks
+*.keystore
+
+# 但随发行版一起开源的安装包要保留
+!dist/*.apk
+
+# 依赖与临时文件
+node_modules/
+package-lock.json
+tests/ui/shots/
+*.log
+.DS_Store
+Thumbs.db

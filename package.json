@@ -1,0 +1,19 @@
+{
+  "name": "guandan-single-player",
+  "version": "1.0.0",
+  "description": "Offline single-player Guandan (掼蛋) game - vanilla JS + Android WebView shell",
+  "private": true,
+  "scripts": {
+    "test": "node tests/engine.test.js && node tests/rules.test.js && node tests/coop.test.js",
+    "test:engine": "node tests/engine.test.js",
+    "test:rules": "node tests/rules.test.js",
+    "test:coop": "node tests/coop.test.js",
+    "ui:check": "node tests/ui/check.js",
+    "ui:audit": "node tests/ui/audit.js"
+  },
+  "keywords": ["guandan", "card-game", "offline", "android", "webview", "game"],
+  "license": "MIT",
+  "devDependencies": {
+    "puppeteer-core": "^25.0.0"
+  }
+}

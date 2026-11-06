@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#22160e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>掼蛋 · 单机版</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ================= 大厅 ================= -->
+  <div id="scr-home" class="screen on">
+    <div class="home-head">
+      <div class="brand">
+        <h1>掼蛋</h1>
+        <em>单机版</em>
+      </div>
+      <div class="home-tools">
+        <button class="ib" id="btnStats">战绩</button>
+        <button class="ib" id="btnRule">规则</button>
+        <button class="ib" id="btnSet">设置</button>
+      </div>
+    </div>
+
+    <div class="venue-wrap">
+      <div class="venue-title">单机馆<span>无需联网</span></div>
+      <div class="venue-list">
+        <div class="game-card" id="enterGuandan">
+          <div class="gc-ico">掼</div>
+          <div class="gc-info">
+            <div class="gc-name">掼蛋 <i id="tagLevel">打 2</i></div>
+            <div class="gc-sub">四人两副 · 对家同盟 · 进贡接风</div>
+          </div>
+          <div class="gc-go">开始</div>
+        </div>
+        <div class="game-card locked">
+          <div class="gc-ico">斗</div>
+          <div class="gc-info">
+            <div class="gc-name">斗地主</div>
+            <div class="gc-sub">暂未开放</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="venue-title" style="margin-top:16px">存档<span>自动保存到本机</span></div>
+      <div class="statgrid">
+        <div class="sg"><span>当前级别</span><b id="homeProg">我方 2 · 对方 2</b></div>
+        <div class="sg"><span>总对局</span><b id="homeGames">0 局</b></div>
+        <div class="sg"><span>胜 / 负</span><b id="homeWin">0 / 0</b></div>
+        <div class="sg"><span>累计积分</span><b id="homeScore">0</b></div>
+      </div>
+    </div>
+
+    <div class="home-foot">
+      纯单机运行 · 不联网 · 不收集任何信息<br>
+      规则为公开掼蛋玩法，界面与美术为独立设计
+    </div>
+  </div>
+
+  <!-- ================= 牌桌（横屏） ================= -->
+  <div id="scr-table" class="screen">
+
+    <div class="topbar">
+      <div class="tb-l">
+        <button class="ib sm" id="btnExit">退出</button>
+        <button class="ib sm" id="btnSet2">设置</button>
+      </div>
+
+      <div class="daji">
+        <div class="dj-side me"><span>我方</span><b id="lvMe">2</b></div>
+        <div class="dj-mid"><em>本局打</em><strong id="levelTxt">2</strong></div>
+        <div class="dj-side op"><span>对方</span><b id="lvOpp">2</b></div>
+      </div>
+
+      <div class="tb-r">
+        <span class="round" id="roundInfo">第 1 局</span>
+        <button class="ib sm" id="btnCounter">记牌器</button>
+        <button class="ib sm" id="btnTrust">托管</button>
+      </div>
+    </div>
+
+    <div class="table">
+      <div class="felt"></div>
+      <div class="flash" id="flash"></div>
+      <div class="boomtxt" id="boomTxt"></div>
+      <div class="danji-tip" id="danjiTip">单机模式 · 对手为电脑 · 进度自动保存</div>
+
+      <!-- 对家（上） -->
+      <div class="player" id="p2">
+        <div class="pav"><div class="ring" id="ring2"></div><div class="ava">对</div><div class="badge" id="b2"></div></div>
+        <div class="nm">对家</div>
+        <div class="cnt" id="c2">27</div>
+        <div class="say" id="s2"></div>
+      </div>
+
+      <!-- 上家（左） -->
+      <div class="player" id="p3">
+        <div class="pav"><div class="ring" id="ring3"></div><div class="ava">上</div><div class="badge" id="b3"></div></div>
+        <div class="nm">上家</div>
+        <div class="cnt" id="c3">27</div>
+        <div class="say" id="s3"></div>
+      </div>
+
+      <!-- 下家（右） -->
+      <div class="player" id="p1">
+        <div class="pav"><div class="ring" id="ring1"></div><div class="ava">下</div><div class="badge" id="b1"></div></div>
+        <div class="nm">下家</div>
+        <div class="cnt" id="c1">27</div>
+        <div class="say" id="s1"></div>
+      </div>
+
+      <!-- 我（左下） -->
+      <div class="player" id="p0">
+        <div class="pav"><div class="ring on" id="ring0"></div><div class="ava">我</div><div class="badge" id="b0"></div></div>
+        <div class="nm">我</div>
+        <div class="cnt" id="c0">27</div>
+        <div class="say" id="s0"></div>
+      </div>
+
+      <div class="center">
+        <div class="playzone" id="playzone"></div>
+        <div class="typehint" id="typeHint"></div>
+      </div>
+
+      <!-- 操作区：浮在手牌正上方 -->
+      <div class="actionbar">
+        <button class="btn tiny" id="btnSort">理牌</button>
+        <button class="btn tiny" id="btnFlush">同花顺</button>
+        <button class="btn tiny" id="btnFlushRow">理成一列</button>
+        <button class="btn tiny" id="btnFlushBack">恢复理牌</button>
+        <button class="btn ghost" id="btnPass">不出</button>
+        <button class="btn ghost" id="btnHint">提示</button>
+        <button class="btn primary" id="btnPlay">出牌</button>
+      </div>
+
+      <!-- 观战条：自己出完后接管操作区 -->
+      <div class="watchbar" id="watchBar">
+        <span class="wlabel" id="watchLbl">你已出完 · 观战中</span>
+        <button class="btn tiny" id="btnFast">快进 ×1</button>
+      </div>
+
+      <!-- 托管浮标 -->
+      <div class="trustflag" id="trustFlag">托管中</div>
+    </div>
+
+    <!-- 记牌器条（展开时占一行，不遮挡牌桌） -->
+    <div class="counterbar" id="counterBar"></div>
+
+    <div class="handwrap">
+      <div class="watchtip" id="watchTip">你的牌已出完，正在看你队友和电脑出牌</div>
+      <div class="hand" id="hand"></div>
+    </div>
+  </div>
+
+  <!-- ================= 结算 ================= -->
+  <div class="overlay" id="ovSettle">
+    <div class="panel wide">
+      <h2 id="stTitle">本局结束</h2>
+      <div class="sub" id="stSub"></div>
+      <div class="st-body">
+        <div class="rank-list" id="stRanks"></div>
+        <div class="st-right">
+          <div class="rows">
+            <div class="row"><span class="lbl">我方</span><span id="stMe">2</span></div>
+            <div class="row"><span class="lbl">对方</span><span id="stOpp">2</span></div>
+            <div class="row"><span class="lbl">本局积分</span><span id="stScore">0</span></div>
+            <div class="row"><span class="lbl">累计积分</span><span id="stTotal">0</span></div>
+          </div>
+          <button class="btn primary" id="btnNext" style="width:100%;max-width:none">继续下一局</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 设置 ================= -->
+  <div class="overlay" id="ovSet">
+    <div class="panel">
+      <h2>设置</h2>
+      <div class="sub">全部功能离线可用</div>
+      <div class="rows">
+        <div class="row" id="setSpeed"><span class="lbl">电脑出牌速度</span><span id="speedTxt">1-4 秒</span></div>
+        <div class="row" id="setDiff"><span class="lbl">电脑难度</span><span id="diffTxt">普通</span></div>
+        <div class="row" id="setGroup"><span class="lbl">手牌显示</span><span id="groupTxt">同牌叠放</span></div>
+        <div class="row" id="setSnd"><span class="lbl">音效</span><span id="sndTxt">开</span></div>
+        <div class="row" id="setVoice"><span class="lbl">报牌语音</span><span id="voiceTxt">开</span></div>
+        <div class="row" id="setVib"><span class="lbl">震动</span><span id="vibTxt">开</span></div>
+        <div class="row" id="setReset"><span class="lbl">清空存档重来</span><span style="color:#c96a4e">重置</span></div>
+      </div>
+      <div class="note">
+        存档保存在本机应用存储中，卸载即清除。<br>
+        本应用不申请网络权限。
+      </div>
+      <button class="btn ghost" id="btnSetClose" style="width:100%;max-width:none;margin-top:12px">关闭</button>
+    </div>
+  </div>
+
+  <!-- ================= 战绩 ================= -->
+  <div class="overlay" id="ovStats">
+    <div class="panel">
+      <h2>战绩</h2>
+      <div class="sub">仅统计本机对局</div>
+      <div class="rows" id="statsRows"></div>
+      <button class="btn ghost" id="btnStatsClose" style="width:100%;max-width:none;margin-top:12px">关闭</button>
+    </div>
+  </div>
+
+  <!-- ================= 规则 ================= -->
+  <div class="overlay" id="ovRule">
+    <div class="panel col">
+      <h2>规则</h2>
+      <div class="sub">标准掼蛋玩法</div>
+      <div class="panel-body">
+      <div class="note" style="margin-top:0">
+        <b>牌张</b>　两副牌共 108 张，四人各 27 张，对家同盟。<br><br>
+        <b>级牌</b>　当前打的级数的牌为级牌，大小仅次于王；红桃级牌为「逢人配」，可代替除大小王外任意牌（不能用于进贡、还贡）。<br><br>
+        <b>牌型</b>　单张 / 对子 / 三张 / 三带二 / 顺子（5 张）/ 三连对 / 钢板（两连三）/ 炸弹 / 同花顺 / 天王炸。<br><br>
+        <b>大小</b>　同型比点数。炸弹层级：4 炸 &lt; 5 炸 &lt; 同花顺 &lt; 6 炸 &lt; 7 炸 &lt; 8 炸 &lt; 天王炸。<br><br>
+        <b>进贡</b>　上局末游向头游进贡除红桃级牌外最大的一张；头游还一张不大于 10 的牌（逢人配不可还）。双下时两家分别进贡、分别还贡。进贡方合计两张大王则抗贡。<br><br>
+        <b>接风</b>　出完牌的一方其余玩家全部不要，则由其搭档接风先出。<br><br>
+        <b>升级</b>　头游与二游同队升 3 级（双下），头游与三游同队升 2 级，头游与末游同队升 1 级。从 2 打到 A，过 A 即获胜。
+      </div>
+      </div>
+      <button class="btn ghost" id="btnRuleClose">关闭</button>
+    </div>
+  </div>
+
+  <!-- ================= 进贡 ================= -->
+  <div class="overlay" id="ovTribute">
+    <div class="panel">
+      <h2>进贡还贡</h2>
+      <div class="sub" id="tributeSub">本局开始前</div>
+      <div id="tributeBody" style="margin-bottom:12px"></div>
+      <div class="tribute-pick" id="tributePick"></div>
+      <button class="btn primary" id="btnTributeOk" style="width:100%;max-width:none">开始出牌</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<div id="rotateTip">
+  <div class="rt-ico"></div>
+  <div class="rt-txt">请把手机横过来</div>
+  <div class="rt-sub">本游戏为横屏界面</div>
+</div>
+
+<script src="game/engine.js"></script>
+<script src="game/logic.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
